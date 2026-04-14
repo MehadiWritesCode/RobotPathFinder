@@ -10,7 +10,7 @@ GRID_HEIGHT = WINDOW_HEIGHT - UI_PANEL_HEIGHT - 60
 _DARK_NAVY    = (18, 18, 24)
 _SLATE_GREY   = (35, 40, 52)
 _SOFT_WHITE   = (240, 245, 255)
-_CHARCOAL     = (30, 30, 40)
+_ANTIQUE_GOLD = (207, 181, 59)
 _TEAL_LIGHT   = (129, 230, 217)
 
 # Backgrounds
@@ -20,13 +20,14 @@ GRID_BACKGROUND  = _SLATE_GREY
 
 #Tile Colors
 TILE_EMPTY      = _SOFT_WHITE
-TILE_WALL       = _CHARCOAL
-TILE_START      = (72, 207, 173) #START POINT
-TILE_END        = (252, 92, 101) #GOAL POINT
+TILE_WALL       = _ANTIQUE_GOLD
+TILE_START      = (72, 207, 173)
+TILE_END        = (252, 92, 101)
 
 # Special Transportation
 TILE_ELEVATOR   = (69, 170, 242)
-TILE_STAIRS     = (255, 159, 243)
+#TILE_STAIRS     = (255, 159, 243)
+TILE_STAIRS = (123, 63, 0)
 
 # Algorithm & Pathfinding
 PATH_COLOR      = (165, 94, 234) # explored path
