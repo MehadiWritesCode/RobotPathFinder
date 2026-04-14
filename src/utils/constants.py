@@ -1,0 +1,48 @@
+import pygame
+
+#SCREEN AND GRID SIZE
+WINDOW_WIDTH = 1200
+WINDOW_HEIGHT = 800
+UI_PANEL_HEIGHT = 150
+GRID_HEIGHT = WINDOW_HEIGHT - UI_PANEL_HEIGHT - 60
+
+#COLOR PALETTE
+_DARK_NAVY    = (18, 18, 24)
+_SLATE_GREY   = (35, 40, 52)
+_SOFT_WHITE   = (240, 245, 255)
+_CHARCOAL     = (30, 30, 40)
+_TEAL_LIGHT   = (129, 230, 217)
+
+# Backgrounds
+APP_BACKGROUND   = _DARK_NAVY
+PANEL_BACKGROUND = (28, 32, 42)
+GRID_BACKGROUND  = _SLATE_GREY
+
+#Tile Colors
+TILE_EMPTY      = _SOFT_WHITE
+TILE_WALL       = _CHARCOAL
+TILE_START      = (72, 207, 173) #START POINT
+TILE_END        = (252, 92, 101) #GOAL POINT
+
+# Special Transportation
+TILE_ELEVATOR   = (69, 170, 242)
+TILE_STAIRS     = (255, 159, 243)
+
+# Algorithm & Pathfinding
+PATH_COLOR      = (165, 94, 234) # explored path
+SCANNING_OPEN   = (254, 211, 48)  # Scanning time
+ROBOT_BODY      = (254, 211, 48)
+
+# UI Elements
+TEXT_COLOR      = (255, 255, 255)
+UI_ACCENT       = _TEAL_LIGHT
+
+#ALGORITHM COST
+MOVE_COST = 1
+ELEVATOR_COST = 8
+STAIRS_COST = 12
+
+#RESPONSIVE
+def scale(value):
+    return int(value * (WINDOW_HEIGHT / 900))
+
