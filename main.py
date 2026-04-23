@@ -9,6 +9,13 @@ def main():
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     pygame.display.set_caption("Pathfinding Dashboard")
 
+    # STATS
+    stats = {
+        "visited": 0,
+        "cost": 0,
+        "time": 0,
+        "found": None
+    }
 
     # COLORS
     SIDEBAR_WIDTH = scale(240)
@@ -101,8 +108,27 @@ def main():
 
         screen.blit(font.render("CONTROL PANEL", True, COLORS["text"]), (40, 40))
 
+        # ------------------------- RENDER STATISTICS -------------------------
+        y_pos = scale(450)
 
-        # ------------------------  FLOOR CARDS---------------------------------------
+        # Section Header
+        stats_header = font.render("ALGORITHM STATS", True, (150, 150, 150))
+        screen.blit(stats_header, (40, y_pos - 30))
+
+        # Display each metric from the stats dictionary
+        for key, value in stats.items():
+            if key == "found": continue
+
+            # Format label: "Visited: 100", "Time: 45.5 ms"
+            label_text = f"{key.capitalize()}: {value}"
+            if key == "time": label_text += " ms"
+
+            stat_surf = font.render(label_text, True, COLORS["accent"])
+            screen.blit(stat_surf, (40, y_pos))
+            y_pos += 35  # Space between lines
+        # ---------------------------------------------------------------------
+
+       # ------------------------  FLOOR CARDS---------------------------------------
 
         for i in range(num_floors):
 
@@ -159,7 +185,10 @@ def main():
 
                             if start_node and end_node:
                                 #NEW NODE CHECK THEN CALL
-                                found = algorithm(draw_sync, grid, start_node, end_node)
+                                found, v_count, p_cost, t_taken = algorithm(draw_sync, grid, start_node, end_node)
+                                stats["visited"] = v_count
+                                stats["cost"] = p_cost
+                                stats["time"] = round(t_taken, 2)
 
                                 if not found:
                                    #IF ROAD NOT FOUND
