@@ -2,7 +2,7 @@ import pygame
 from src.utils.constants import *
 from src.core.grid import make_grid
 from src.ui.components import Button
-
+from src.core.algorithm import algorithm
 
 def main():
     pygame.init()
@@ -74,6 +74,21 @@ def main():
 
     font = pygame.font.SysFont("Arial", 18, bold=True)
 
+    def draw_sync():
+
+        for f_idx, floor in enumerate(grid):
+
+            row_idx = f_idx // cards_per_row
+            col_idx = f_idx % cards_per_row
+            x_off = left_padding + col_idx * (floor_width + card_gap) + (floor_width - cols * tile_size) // 2
+            y_off = top_padding + row_idx * (floor_height + card_gap) + (floor_height - rows * tile_size) // 2
+
+            for r in floor:
+                for node in r:
+                    node.draw_with_offset(screen, x_off, y_off, elevator_img, stairs_img)
+
+        pygame.display.flip() #SCREEN UPDATE
+
     while running:
         mouse_pos = pygame.mouse.get_pos()
         screen.fill(COLORS["bg"])
@@ -131,7 +146,32 @@ def main():
                         if btn.tool_name == "CLEAR":
                             grid = make_grid(num_floors, rows, cols, tile_size, floor_width)
                         elif btn.tool_name == "RUN":
-                            print("RUNNING...")
+                            start_node = None
+                            end_node = None
+
+                            # FINDING NEIGHBOUR AND START END NODE
+                            for f in grid:
+                                for r in f:
+                                    for n in r:
+                                        n.update_neighbors(grid, num_floors, rows, cols)
+                                        if n.color == TILE_START: start_node = n
+                                        if n.color == TILE_END: end_node = n
+
+                            if start_node and end_node:
+                                #NEW NODE CHECK THEN CALL
+                                found = algorithm(draw_sync, grid, start_node, end_node)
+
+                                if not found:
+                                   #IF ROAD NOT FOUND
+                                    msg_font = pygame.font.SysFont("Arial", 30, bold=True)
+                                    error_txt = msg_font.render("NO PATH FOUND!", True, (255, 50, 50))
+
+                                    # SHOW MESSAGE
+                                    text_rect = error_txt.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
+                                    screen.blit(error_txt, text_rect)
+                                    pygame.display.flip()
+
+                                    pygame.time.delay(1000)
                         else:
                             current_tool = btn.tool_name
 

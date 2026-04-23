@@ -11,7 +11,7 @@ class Button:
 
     def draw (self, screen, current_tool):
         is_active = (current_tool == self.tool_name)
-        # হোভার বা একটিভ থাকলে কালার চেঞ্জ
+
         draw_color = self.hover_color if is_active or self.rect.collidepoint(pygame.mouse.get_pos()) else self.color
 
         pygame.draw.rect(screen, draw_color, self.rect, border_radius=10)

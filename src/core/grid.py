@@ -62,6 +62,40 @@ class Node:
         return self.real_x <= mx < self.real_x + self.tile_size and \
                self.real_y <= my < self.real_y + self.tile_size
 
+    def get_pos(self):
+        return self.row, self.col
+
+    def make_closed(self):
+        if self.color not in [TILE_START, TILE_END, TILE_ELEVATOR, TILE_STAIRS]:
+            self.color = (60, 65, 80)
+
+    def make_open(self):
+        if self.color not in [TILE_START, TILE_END, TILE_ELEVATOR, TILE_STAIRS]:
+            self.color = SCANNING_OPEN
+
+    def make_path(self):
+        if self.color not in [TILE_START, TILE_END, TILE_ELEVATOR, TILE_STAIRS]:
+            self.color = PATH_COLOR
+
+    def update_neighbors(self, grid, num_floors, rows, cols):
+        self.neighbors = []
+        # SAME FLOOR NEIGHBOURS
+        if self.row < rows - 1 and grid[self.floor][self.row + 1][self.col].color != TILE_WALL:
+            self.neighbors.append(grid[self.floor][self.row + 1][self.col])
+        if self.row > 0 and grid[self.floor][self.row - 1][self.col].color != TILE_WALL:
+            self.neighbors.append(grid[self.floor][self.row - 1][self.col])
+        if self.col < cols - 1 and grid[self.floor][self.row][self.col + 1].color != TILE_WALL:
+            self.neighbors.append(grid[self.floor][self.row][self.col + 1])
+        if self.col > 0 and grid[self.floor][self.row][self.col - 1].color != TILE_WALL:
+            self.neighbors.append(grid[self.floor][self.row][self.col - 1])
+
+        # FLOOR CHANGING
+        if self.is_elevators or self.is_stairs:
+            if self.floor < num_floors - 1: # GO UP
+                self.neighbors.append(grid[self.floor + 1][self.row][self.col])
+            if self.floor > 0: # DO DOWN
+                self.neighbors.append(grid[self.floor - 1][self.row][self.col])
+
 
 def make_grid(floors, rows, cols, tile_size, floor_width):
     grid = []
@@ -88,3 +122,5 @@ def make_grid(floors, rows, cols, tile_size, floor_width):
         grid.append(floor_grid)
 
     return grid
+
+
