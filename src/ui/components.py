@@ -17,7 +17,7 @@ class Button:
         pygame.draw.rect(screen, draw_color, self.rect, border_radius=10)
 
         if is_active:
-            pygame.draw.rect(screen, TILE_EMPTY, self.rect, 2, border_radius=10)  # সাদা বর্ডার
+            pygame.draw.rect(screen, TILE_EMPTY, self.rect, 2, border_radius=10)  #WHITE BORDER
 
         font = pygame.font.SysFont('Segoe UI', 14, bold=True)
         text_surf = font.render(self.text, True, TILE_EMPTY)

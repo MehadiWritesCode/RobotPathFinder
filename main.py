@@ -63,7 +63,8 @@ def main():
         Button("START", btn_x, start_y + gap, scale(140), scale(40), (50, 140, 60), (70, 180, 90), "START"),
         Button("END", btn_x, start_y + gap * 2, scale(140), scale(40), (200, 60, 60), (230, 90, 90), "END"),
         Button("CLEAR", btn_x, start_y + gap * 3, scale(140), scale(40), (60, 60, 60), (90, 90, 90), "CLEAR"),
-        Button("RUN", btn_x, WINDOW_HEIGHT - scale(90), scale(140), scale(50), (0, 140, 255), (0, 170, 255), "RUN")
+        Button("RUN", btn_x, WINDOW_HEIGHT - scale(90), scale(140), scale(50), (0, 140, 255), (0, 170, 255), "RUN"),
+        Button("HELLO", btn_x, WINDOW_HEIGHT - scale(90), scale(140), scale(50), (0, 140, 255), (0, 170, 255), "RUN")
     ]
 
     elevator_img = pygame.transform.scale(

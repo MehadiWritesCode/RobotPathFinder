@@ -70,21 +70,19 @@
 #             current.make_closed()
 #     return False
 
-
 import pygame
 import heapq
 import time
 from src.utils.constants import MOVE_COST, ELEVATOR_COST, STAIRS_COST
 
-
+#Manhattan Distance
 def heuristic(p1, p2):
     x1, y1 = p1
     x2, y2 = p2
     return abs(x1 - x2) + abs(y1 - y2)
 
-
+#BACKTRACK AND FINAL PATH PRINT
 def reconstruct_path(came_from, current, draw):
-
     while current in came_from:
         current = came_from[current]
         current.make_path()
@@ -102,16 +100,18 @@ def algorithm(draw, grid, start, end):
     heapq.heappush(open_set, (0, count, start))
     came_from = {}  # Stores the most efficient parent for each node
 
-    # Initialize cost tracking dictionaries
+    #Cost from start to current destionation
     g_score = {node: float("inf") for floor in grid for row in floor for node in row}
     g_score[start] = 0
 
+    #Start to end total cost
     f_score = {node: float("inf") for floor in grid for row in floor for node in row}
     f_score[start] = heuristic(start.get_pos(), end.get_pos())
 
     open_set_hash = {start}
 
     while open_set:
+        #Window event handle
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -126,7 +126,7 @@ def algorithm(draw, grid, start, end):
             reconstruct_path(came_from, end, draw)
             end.make_end()
 
-            # Calculate final metrics
+            # Calculate total shortest path
             path_cost = g_score[end]
             time_taken = (time.time() - start_time) * 1000
             return True, visited_count, path_cost, time_taken
@@ -142,8 +142,8 @@ def algorithm(draw, grid, start, end):
             # Tentative cost to reach neighbor via current node
             temp_g_score = g_score[current] + cost
 
+            #If new path is better
             if temp_g_score < g_score[neighbor]:
-                # Found a better path to this neighbor
                 came_from[neighbor] = current
                 g_score[neighbor] = temp_g_score
                 f_score[neighbor] = temp_g_score + heuristic(neighbor.get_pos(), end.get_pos())
@@ -156,6 +156,7 @@ def algorithm(draw, grid, start, end):
 
         draw()  # Refresh UI during search
 
+        #mark as closed
         if current != start:
             current.make_closed()
 
